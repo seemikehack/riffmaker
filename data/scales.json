@@ -1,0 +1,9 @@
+[{
+    "name": "Western Chromatic",
+    "modes": [],
+    "intervals": [1,1,1,1,1,1,1,1,1,1,1,1]
+},{
+    "name": "Western Diatonic",
+    "modes": ["Ionian","Dorian","Phrygian","Lydian","Mixolydian","Aeolian","Locrian"],
+    "intervals": [2,2,1,2,2,2,1]
+}]
