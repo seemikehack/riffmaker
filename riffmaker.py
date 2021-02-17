@@ -67,7 +67,7 @@ def build_scale() -> 'list':
         key_input += intervals[i % il]
     return scale
 
-def generate_riff(notes: 'list', phrase: 'str') -> 'list':
+def generate_riff(notes: 'list', phrase: 'str') -> ('list', 'list'):
     """Maps the characters of a phrase to a list of notes"""
 
     if len(phrase) == 0:
@@ -77,13 +77,23 @@ def generate_riff(notes: 'list', phrase: 'str') -> 'list':
     offset = ord('A')
     sl = len(notes)
 
-    return [notes[(ord(c) - offset) % sl] for c in list(phrase)]
+    scale_degrees = []
+    riff = []
+    for c in list(phrase):
+        scale_degree = (ord(c) - offset) % sl
+        scale_degrees.append(scale_degree)
+        riff.append(notes[scale_degree])
+
+    return (riff, scale_degrees)
 
 def main_loop():
     notes = build_scale()
     phrase = input("\nEnter a phrase to riffify: ")
-    riff = generate_riff(notes, phrase)
+    riff, scale_degrees = generate_riff(notes, phrase)
     print('\n' + ' - '.join(riff))
+    # scale degrees come back as integers and are zero-indexed for programmatic
+    # use, so we need to plus-one and convert them for display
+    print(' - '.join(map(str, map(lambda x: x + 1, scale_degrees))))
 
 signal.signal(signal.SIGINT, exit_handler)
 
