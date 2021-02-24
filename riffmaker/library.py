@@ -43,6 +43,20 @@ def create_flat_notes_list() -> "list":
     return [pair[1] for pair in _data["notes"]]
 
 
+def build_scale(scale: "int", key: "int", mode: "int") -> "list":
+    """Create a list of available notes from which to build a riff."""
+    # FIXME hardcoding sharp list until we fix the key selection
+    notes = create_sharp_notes_list()
+    intervals = get_intervals(scale)
+    sl = len(notes)
+    il = len(intervals)
+    scale_notes = []
+    for i in range(mode, mode + il):
+        scale_notes.append(notes[key % sl])
+        key += intervals[i % il]
+    return scale_notes
+
+
 def generate_riff(notes: "list", phrase: "str") -> ("list", "list"):
     """Maps the characters of a phrase to a list of notes"""
 
