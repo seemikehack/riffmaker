@@ -36,6 +36,16 @@ def print_header():
     print("=========")
 
 
+def print_configuration():
+    print(
+        "Scale: {} | Key: {} | Mode: {}\n".format(
+            library.get_scales()[config["scale"]],
+            library.create_full_notes_list()[config["key"]],
+            library.get_modes(config["scale"])[config["mode"]],
+        )
+    )
+
+
 def configure_scale():
     scales = library.get_scales()
     print_header()
@@ -74,22 +84,23 @@ def configure_key():
 
 def configure_mode():
     modes = library.get_modes(config["scale"])
-    # not every scale has modes
-    if len(modes) > 0:
-        print_header()
-        print("\nThe following modes are available:\n")
-        for i, mode in enumerate(modes, start=1):
-            print("{}. {}".format(i, mode))
-        # decrement by one for index lookup
-        mode_input = -1
-        try:
-            mode_input = int(input("\nSelect a mode: ")) - 1
-        except ValueError:
-            pass
-        if mode_input < 0 or mode_input >= len(modes):
-            configure_mode()
-        else:
-            config["mode"] = mode_input
+    if len(modes) == 0:
+        # not every scale has modes
+        return
+    print_header()
+    print("\nThe following modes are available:\n")
+    for i, mode in enumerate(modes, start=1):
+        print("{}. {}".format(i, mode))
+    # decrement by one for index lookup
+    mode_input = -1
+    try:
+        mode_input = int(input("\nSelect a mode: ")) - 1
+    except ValueError:
+        pass
+    if mode_input < 0 or mode_input >= len(modes):
+        configure_mode()
+    else:
+        config["mode"] = mode_input
 
 
 def print_configure_menu():
@@ -133,6 +144,7 @@ def print_configure_all_menu():
 
 def print_main_menu():
     print_header()
+    print_configuration()
     print("1. Create riffs")
     print("2. Change scale, mode, or key")
     print("3. Quit")
