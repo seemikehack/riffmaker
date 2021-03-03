@@ -36,6 +36,16 @@ def print_header():
     print("=========")
 
 
+def print_configuration():
+    print(
+        "Scale: {} | Key: {} | Mode: {}\n".format(
+            library.get_scales()[config["scale"]],
+            library.create_full_notes_list()[config["key"]],
+            library.get_modes(config["scale"])[config["mode"]],
+        )
+    )
+
+
 def configure_scale():
     scales = library.get_scales()
     print_header()
@@ -134,6 +144,7 @@ def print_configure_all_menu():
 
 def print_main_menu():
     print_header()
+    print_configuration()
     print("1. Create riffs")
     print("2. Change scale, mode, or key")
     print("3. Quit")
