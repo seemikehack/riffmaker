@@ -43,7 +43,15 @@ def configure_scale():
     for i, scale in enumerate(scales, start=1):
         print("{}. {}".format(i, scale))
     # decrement by one for index lookup
-    config["scale"] = int(input("\nSelect a scale: ")) - 1
+    scale_input = -1
+    try:
+        scale_input = int(input("\nSelect a scale: ")) - 1
+    except ValueError:
+        pass
+    if scale_input < 0 or scale_input >= len(scales):
+        configure_scale()
+    else:
+        config["scale"] = scale_input
 
 
 def configure_key():
@@ -53,22 +61,38 @@ def configure_key():
     for i, key in enumerate(keys, start=1):
         print("{}. {}".format(i, key))
     # decrement by one for index lookup
-    config["key"] = int(input("\nSelect a key: ")) - 1
+    key_input = -1
+    try:
+        key_input = int(input("\nSelect a key: ")) - 1
+    except ValueError:
+        pass
+    if key_input < 0 or key_input >= len(keys):
+        configure_key()
+    else:
+        config["key"] = key_input
 
 
 def configure_mode():
     modes = library.get_modes(config["scale"])
     # not every scale has modes
-    if len(modes) > -1:
+    if len(modes) > 0:
         print_header()
         print("\nThe following modes are available:\n")
         for i, mode in enumerate(modes, start=1):
             print("{}. {}".format(i, mode))
         # decrement by one for index lookup
-        config["mode"] = int(input("\nSelect a mode: ")) - 1
+        mode_input = -1
+        try:
+            mode_input = int(input("\nSelect a mode: ")) - 1
+        except ValueError:
+            pass
+        if mode_input < 0 or mode_input >= len(modes):
+            configure_mode()
+        else:
+            config["mode"] = mode_input
 
 
-def configure():
+def print_configure_menu():
     print_header()
     print("1. Change scale")
     print("2. Change mode")
@@ -83,7 +107,8 @@ def configure():
         configure_key()
     elif choice == "4":
         print_main_menu()
-    configure()
+    else:
+        print_configure_menu()
 
 
 def configure_all():
@@ -115,7 +140,7 @@ def print_main_menu():
     if choice == "1":
         create_riff()
     elif choice == "2":
-        configure()
+        print_configure_menu()
     elif choice == "3":
         exit_handler(None, None)
     print_main_menu()

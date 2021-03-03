@@ -1,4 +1,5 @@
 import json
+from typing import Tuple
 
 _data = {}
 
@@ -57,7 +58,7 @@ def build_scale(scale: "int", key: "int", mode: "int") -> "list":
     return scale_notes
 
 
-def generate_riff(notes: "list", phrase: "str") -> ("list", "list"):
+def generate_riff(notes: "list", phrase: "str") -> Tuple["list", "list"]:
     """Maps the characters of a phrase to a list of notes"""
 
     if len(phrase) == 0:
